@@ -1,0 +1,29 @@
+<h1 class="display-4" align="center">Editar Post</h1>
+
+
+<form action="/admin/posts/editar" method="POST">
+    <div class="form-group">
+        <label for="titulo">Título</label>
+        <input name="titulo" type="text" class="form-control" id="titulo" placeholder="Ingresa un título">
+    </div>
+    <div class="form-group">
+        <label for="tipoPublicacion">Tipo de publicación</label>
+        <select name="tipoPublicacion" id="tipoPublicacion" class="custom-select">
+            <option value="publico">Público</option>
+            <option value="privado">Privado</option>
+            <option value="borrador">Borrador</option>
+        </select>
+    </div>
+     <div class="form-group">
+        <label for="cuerpo">Cuerpo del Post</label>
+        <textarea name="cuerpo" cols="30" rows="8" class="form-control" id="cuerpo"></textarea>
+    </div>
+     <div class="form-group">
+        <label for="permitirComentarios">
+            <input name="permitirComentarios" type="checkbox" class="form-check-input" id="permitirComentarios">
+            Permitir Comentarios
+        </label> 
+    </div>
+
+    <button type="submit" class="btn btn-outline-primary">Enviar</button>
+</form> 

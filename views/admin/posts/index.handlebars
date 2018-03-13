@@ -1,0 +1,270 @@
+<h1 class="display-4" align="center">Mis Posts</h1> 
+
+{{> home/form-flash}}
+
+
+<a href="" class="badge badge-primary" data-toggle="modal" data-target="#nuevoPostModal"><i class="fa fa-file-o"></i>  Crear nuevo post</a>
+<a href="" class="badge badge-secondary" data-toggle="modal" data-target="#random"><i class="fa fa-file-o"></i>  Generar Posts Random</a>
+<a href="" class="badge badge-danger" data-toggle="modal" data-target="#eliminarTodos"><i class="fa fa-exclamation-triangle"></i>  ¡Eliminar todos!</a>
+
+
+<br>
+<br>
+<br>
+
+<table class="table table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Título</th>
+            <td>Creador</td>
+            <th>Tipo</th>
+            <th>Categoria</th>
+            <th>Permitir Comentarios</th>
+            <th>Comentarios</th>
+            <th>Link</th>
+            <th>Fecha creación</th>
+            <th>Fecha modificación</th>
+            <th>Acciones</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        {{#each posts as |post|}}
+        <tr>
+            <td>
+                {{#ifCond post.archivo '==' 'http://via.placeholder.com/350x150'}}
+                    <img height="40" class="img-responsive" src="http://via.placeholder.com/350x150" alt="">
+                {{else}}
+                    <img height="40" class="img-responsive" src="/uploads/{{post.archivo}}" alt="">
+                {{/ifCond}}
+            </td>
+            
+            <td>{{post.titulo}}</td>
+            <td>{{post.usuario.nombre}}</td>
+            <td>{{post.tipoPublicacion}}</td>
+            <td>{{post.categoria.nombre}}</td>
+            <td>
+                <input data-post="{{post.id}}" {{#if post.permitirComentarios}} checked {{/if}} type="checkbox" name="postComentarios">
+            </td>
+            <td>
+                <a href="/admin/posts/comentarios-post/{{post.id}}">Ver comentarios</a>
+            </td>
+            <td>
+                <a href="/post/{{post.slug}}">Ver Post</a>
+            </td>
+            <td>{{post.fecha_creacion}}</td>
+            <td>{{post.fecha_actualizacion}}</td>
+            <td>
+                <a href="" class="badge badge-info" data-toggle="modal" data-target="#editarModal{{post.id}}"><i class="fa fa-pencil"></i> Editar</a>
+                <a href="" class="badge badge-danger" data-toggle="modal" data-target="#eliminarModal{{post.id}}"><i class="fa fa-trash-o"></i> Eliminar</a>
+            </td>
+            -
+        </tr>
+        
+        <!-- MODAL EDITAR -->
+        <div class="modal fade" id="editarModal{{post.id}}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Editar Post</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/admin/posts/actualizar/{{post.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" class="form-control"  name="id" value="{{post.id}}">
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input name="titulo" type="text" class="form-control" id="titulo" value="{{post.titulo}}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoria">Categoria:</label>
+                            <select name="categoria" class="custom-select" id="categoria">
+                                    <option value="{{post.categoria.id}}">{{post.categoria.nombre}}</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="archivo">Archivos</label>
+                            <input name="archivo" type="file" class="form-control" id="archivo">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tipoPublicacion">Tipo de Publicacion:</label>
+                            <select name="tipoPublicacion" class="custom-select" id="tipoPublicacion">
+                                {{#select post.tipoPublicacion}}
+                                    <option value="publico">Público</option>
+                                    <option value="privado">Privado</option>
+                                    <option value="borrador">Borrador</option>
+                                {{/select}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cuerpo">Cuerpo del post</label>
+                            <textarea required name="cuerpo" class="form-control" id="cuerpo" rows="6">{{post.cuerpo}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="permitirComentarios" class="form-check-label">
+                                <input name="permitirComentarios" type="checkbox" {{#if post.permitirComentarios}} checked="checked" {{/if}} class="form-check-input" id="permitirComentarios">
+                                Permitir Comentarios
+                            </label> 
+                         </div>
+                         <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL DE BORRADO -->
+        <div class="modal fade" id="eliminarModal{{post.id}}" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="/admin/posts/eliminar/{{post.id}}?_method=DELETE" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title">¿Está seguro de eliminar "{{post.titulo}}" ?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirmar Acción</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </tbody>
+</table>
+
+<!-- MODAL NUEVO POST -->
+<div class="modal fade" id="nuevoPostModal"tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          
+            <form action="/admin/posts/crear" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="titulo">Título</label>
+                        <input name="titulo" type="text" class="form-control" id="titulo" placeholder="Ingresa un título" required>
+                    </div>
+
+                    <div class="form-group">
+                            <label for="categoria">Categoria:</label>
+                            <select name="categoria" class="custom-select" id="categoria">
+                                {{#each categorias as |categoria|}}
+                                    <option value="{{categoria.id}}">{{categoria.nombre}}</option>
+                                {{/each}}
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="archivo">Archivos</label>
+                        <input name="archivo" type="file" class="form-control" id="archivo">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tipoPublicacion">Tipo de publicación:</label>
+                        <select name="tipoPublicacion" id="tipoPublicacion" class="custom-select">
+                            <option value="publico">Público</option>
+                            <option value="privado">Privado</option>
+                            <option value="borrador">Borrador</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cuerpo">Cuerpo del Post</label>
+                        <textarea required name="cuerpo" cols="30" rows="8" class="form-control" id="cuerpo" ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="permitirComentarios" class="form-check-label">
+                            <input name="permitirComentarios" type="checkbox" class="form-check-input" id="permitirComentarios">
+                            Permitir Comentarios
+                        </label> 
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                    </div>
+
+            </form> 
+        </div>
+    </div>
+   </div>
+</div>
+
+<!--MODAL PARA GENERAR POSTS RANDOM -->
+<div class="modal fade" id="random" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Generar posts random</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          
+            <form action="/admin/generar-random-posts" method="POST">
+                    <div class="form-group">
+                        <label for="cantidad">Cantidad</label>
+                        <input name="cantidad" type="text" class="form-control" id="cantidad" placeholder="Ingresa la cantidad">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Generar</button>
+                    </div>
+            </form>    
+        </div>
+     </div>
+  </div>
+</div>
+
+<!--MODAL PARA ELIMINAR TODOS LOS REGISTROS -->
+<div class="modal fade" id="eliminarTodos" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="/admin/posts/eliminarTodos/?_method=DELETE" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title">¿Está seguro de eliminar todos los registros?"</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Confirmar Acción</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+</div>
+
+

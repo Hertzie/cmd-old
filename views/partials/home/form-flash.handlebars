@@ -1,0 +1,24 @@
+{{#if mensaje_success}}
+    <div class="alert alert-success">
+        {{mensaje_success}}
+    </div>
+{{/if}}
+
+{{#if mensaje_actualizado}}
+    <div class="alert alert-info">
+        {{mensaje_actualizado}}
+    </div>
+{{/if}}
+
+{{#if mensaje_eliminado}}
+    <div class="alert alert-danger">
+        {{mensaje_eliminado}}
+    </div>
+{{/if}}
+
+{{#if error}}
+    <div class="alert alert-danger">
+        {{error}}
+    </div>
+{{/if}}
+

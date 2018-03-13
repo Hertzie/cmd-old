@@ -11,12 +11,16 @@
                 <span class="sr-only">(current)</span>
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin">Admin</a>
-            </li>
+            {{#if usuario}}
+              <li class="nav-item">
+                <a class="nav-link" href="/admin">Administración</a>
+              </li>
+            {{/if}}
+            <!--
             <li class="nav-item">
               <a class="nav-link" href="/about">About</a>
             </li>
+            -->
             <li class="nav-item">
               <a class="nav-link" href="/login">Login</a>
             </li>

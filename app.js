@@ -83,7 +83,8 @@ app.engine('handlebars', expHandle({defaultLayout: 'home', helpers:{select:selec
 app.set('view engine', 'handlebars');
 
 
+const puerto = process.env.PORT || 4500;
 //Ejecutar servidor
-app.listen(4500, () => {
+app.listen(puerto, () => {
     console.log('Servidor corriendo!');
 });

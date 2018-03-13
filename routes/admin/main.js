@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const AdminIndex = require('../../controllers/adminIndexController');
+const { usuarioAutenticado } = require('../../helpers/autenticacion');
 
-router.all('/*', (req,res,next)=>{
+router.all('/*', usuarioAutenticado, (req,res,next)=>{
     req.app.locals.layout = 'admin';
     next();
 });

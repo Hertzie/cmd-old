@@ -28,4 +28,6 @@ router.delete('/eliminarTodos', PostController.eliminarTodos);
 router.get('/comentarios-post/:id', ComentarioController.comentariosPost);
 
 
+
+
 module.exports = router;

@@ -14,4 +14,6 @@ router.post('/enviarComentario', ComentarioController.enviarComentario);
 router.delete('/eliminarComentario/:id', ComentarioController.eliminarComentario);
 
 router.post('/aprobar-comentario', ComentarioController.aprobarComentario);
+router.put('/editar/:id', ComentarioController.editarComentario);
+
 module.exports = router;

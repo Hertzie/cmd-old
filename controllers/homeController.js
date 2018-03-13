@@ -14,7 +14,7 @@ exports.index = function(req,res){
     Post.find({}).populate('usuario')
         .skip((posts_por_pagina * pagina) - posts_por_pagina)
         .limit(posts_por_pagina)
-        .then(posts =>{
+        .populate('categoria').then(posts =>{
                 Post.count().then(cantidad_posts=>{
                     Categoria.find({}).then(categorias=>{
                         res.render('home/index', {posts: posts, 
@@ -118,4 +118,10 @@ exports.verPost = function(req,res){
             res.render('home/post', {post:post, categorias: categorias});
         });
     }).catch(error=>{console.log});
+}
+
+exports.getPostsPorCategoria = function(req,res){
+    Post.find({categoria: req.params.id}).populate('usuario').populate('categoria').then(posts=>{
+        res.render('home/index', {posts:posts});
+    });
 }

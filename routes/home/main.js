@@ -16,4 +16,7 @@ router.get('/registro', HomeController.registroGet);
 router.post('/registro', HomeController.registroPost);
 router.get('/post/:slug', HomeController.verPost);
 
+//Obtener Posts por categoria
+router.get('/posts-categoria/:id', HomeController.getPostsPorCategoria);
+
 module.exports = router;

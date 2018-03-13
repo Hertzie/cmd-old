@@ -3,7 +3,7 @@ let Post = require('../models/Post');
 let Usuario = require('../models/Usuario');
 
 exports.index = function(req,res){
-    Comentario.find({usuario: req.user.id}).populate('usuario').then(comentarios=>{
+    Comentario.find({usuario: req.user.id}).populate('usuario').populate('post').then(comentarios=>{
         Usuario.find({}).then(usuarios=>{
             res.render('admin/comentarios/index', {comentarios:comentarios, usuarios:usuarios});
         });
@@ -75,5 +75,16 @@ exports.comentariosPost = function(req,res){
             }
         });
     })
+}
+
+exports.editarComentario = function(req,res){
+    Comentario.findOne({_id: req.params.id}).then(comentario=>{
+        comentario.cuerpo = req.body.cuerpo;
+
+        comentario.save().then(actualizado=>{
+            req.flash('mensaje_actualizado', 'El comentario ha sido actualizado.');
+            res.redirect('/admin/comentarios');
+        });
+    });
 }
 

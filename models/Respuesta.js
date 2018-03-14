@@ -6,8 +6,18 @@ const RespuestaSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'usuarios'
     },
-    cuerpo:{
+    contenido:{
         type: String,
         required:true
+    },
+    comentario:{
+        type: Schema.Types.ObjectId,
+        ref: 'comentarios'
+    },
+    post:{
+        type: Schema.Types.ObjectId,
+        ref: 'posts'
     }
 });
+
+module.exports = mongoose.model('respuestas', RespuestaSchema);

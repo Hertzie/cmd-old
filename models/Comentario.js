@@ -17,7 +17,11 @@ const ComentarioSchema = new Schema({
     post:{
         type:Schema.Types.ObjectId,
         ref: 'posts'
-    }
+    },
+    respuestas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'respuestas'
+    }]
 
 });
 

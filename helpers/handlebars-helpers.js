@@ -35,6 +35,9 @@ module.exports = {
             case '>=':
                 bool = v1 >= v2;
                 break; 
+            case '||':
+                bool = (v1 || v2);
+                break;
             default:
                 throw 'Operador desconocido' + operador;
         }

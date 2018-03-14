@@ -7,6 +7,10 @@
 
           <!-- Title -->
           <h1 class="mt-4">{{post.titulo}}</h1>
+          {{#if us}}
+            <input type="hidden" name="aidi" id="aidi" value="{{us._id}}">
+            <input type="hidden" name="slugpost" id="slugpost" value="{{post.slug}}">
+          {{/if}}
 
           <!-- Author -->
           <p class="lead">
@@ -34,7 +38,7 @@
           <p class="lead">{{post.cuerpo}}</p>
           <hr>
           {{> home/form-flash}}
-        {{#if usuario}}
+        {{#if us}}
             {{#if post.permitirComentarios}}
                 <!-- Comments Form -->
                 <div class="card my-4">
@@ -61,16 +65,59 @@
           <br>
         {{/if}}
 
-        {{#each post.comentarios as |comentario|}}
+        {{#each comentarios as |comentario|}}
           <!-- Single Comment -->
             <div class="media mb-4">
               <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
               <div class="media-body">
                 <h5 class="mt-0">{{comentario.usuario.nombre}}</h5>
                 <p>{{comentario.cuerpo}}</p>
+                <a href="" data-toggle="modal" data-target="#respuesta{{comentario.id}}" class="badge badge-primary" style="float:right;">Responder</a>
+                {{#each comentario.respuestas as |respuesta|}}
+                    <div class="media mt-4">
+                      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                      <div class="media-body">
+                        <h5 class="mt-0">{{respuesta.usuario.nombre}}</h5>
+                        <p>{{respuesta.contenido}}</p>
+                        
+                      </div>
+                    </div>
+                {{/each}}
               </div>
             </div>
             <hr>
+
+            
+            <div class="modal fade" id="respuesta{{comentario.id}}" tabindex="-1" role="dialog">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Respuesta para comentario: <span style="color:blue;">{{comentario.cuerpo}}</span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                                <form action="/admin/respuestas/publicar" method="POST">
+                                        <div id="forma" class="form-group">
+                                            <label for="respuesta">Respuesta:</label>
+                                            <input type="hidden" name="comentarioid" id="comentarioid" value="{{comentario.id}}">
+                                            <input name="contenido" type="text" class="form-control" id="contenido">
+                                            <input name="usuariologueado" type="hidden" class="form-control">
+                                            <input type="hidden" name="slugg">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                            <button onClick="getData()" type="submit" class="btn btn-primary">Responder</button>
+                                        </div>
+                                </form>    
+                            </div>
+                        </div>
+                      </div>
+            </div>
+            
+
         {{/each}}
         
 
@@ -101,6 +148,7 @@
             </div>
           </div>
           -->
+          
 
         </div>
 
@@ -109,3 +157,47 @@
       <!-- /.row -->
 
     </div>
+
+<!--MODAL PARA EDITAR EL COMENTARIO -->
+<script src="/js/jquery/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+      let ui = $("#aidi").val();
+      let s = $("#slugpost").val();
+      //$("#forma").append(`<input type="text" name="usuariologueado" id="usuariologueado" value="${ui}">`);
+      $("input[name=usuariologueado]").val(ui);
+      $("input[name=slugg]").val(s);
+    });
+  /*
+  $(document).ready(function(){
+    let ui = $("#aidi").val();
+    $("#userlogueado").val(ui);
+    let usuarioo = $("#userlogueado").val();
+    console.log(usuarioo);
+  });
+  */
+  
+  /*
+  var getData = function(){
+    
+    let ui = $("#aidi").val();
+    let slug_post = $("#slugpost").val();
+    $('#userlogueado').val(ui);
+    $('#slugg').val(slug_post);
+    let usuarioo = $('#userlogueado').val();
+    let sl = $('#slugg').val();
+    console.log(ui);
+    console.log(slug_post);
+    
+    let ui  $("#aidi").val();
+    $("#forma").append(`<input type="text" name="usuariologueado" id="usuariologueado" value="${ui}"`);
+    
+    let ui = $("#aidi").val();
+    $('#usuariologueado').val(ui);
+    let o = $("#usuariologueado").val();
+    console.log(o);
+    
+  }
+  */
+</script>

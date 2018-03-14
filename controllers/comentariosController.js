@@ -13,7 +13,6 @@ exports.index = function(req,res){
 exports.enviarComentario = function(req,res){
     Post.findOne({_id: req.body.id}).then(post=>{
 
-       
         const nuevo_comentario = new Comentario({
             usuario: req.user.id,
             cuerpo: req.body.cuerpo,

@@ -113,11 +113,21 @@ exports.registroPost = function(req,res){
 }
 
 exports.verPost = function(req,res){
+    /*
     Post.findOne({slug: req.params.slug}).populate({path: 'comentarios', match:{aprobado:true}, populate:{path: 'usuario', model:'usuarios'}}).populate('usuario').then(post=>{
-        Categoria.find({}).then(categorias=>{
-            res.render('home/post', {post:post, categorias: categorias});
-        });
+        res.render('home/post', {post:post});
     }).catch(error=>{console.log});
+    */
+    Post.findOne({slug: req.params.slug}).populate('usuario').then(post=>{
+        Comentario.find({post:post.id, aprobado:true}).populate('usuario').populate({path: 'respuestas', model:'respuestas', populate:{path:'usuario', model:'usuarios'}}).then(comentarios=>{
+            res.render('home/post', {post:post, comentarios:comentarios});
+        });
+    });
+    
+   
+
+
+   
 }
 
 exports.getPostsPorCategoria = function(req,res){

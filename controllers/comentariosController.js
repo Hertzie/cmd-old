@@ -12,7 +12,6 @@ exports.index = function(req,res){
 
 exports.enviarComentario = function(req,res){
     Post.findOne({_id: req.body.id}).then(post=>{
-
         const nuevo_comentario = new Comentario({
             usuario: req.user.id,
             cuerpo: req.body.cuerpo,
@@ -22,7 +21,6 @@ exports.enviarComentario = function(req,res){
             nuevo_comentario.aprobado = true;
         }
         post.comentarios.push(nuevo_comentario);
-        
         post.save().then(guardado=>{
             nuevo_comentario.save().then(comentario_guardado=>{
 
@@ -34,25 +32,19 @@ exports.enviarComentario = function(req,res){
                 }
                 res.redirect(`/post/${post.slug}`);
             });
-        });   
-        
+        });      
     });
 }
 
 exports.eliminarComentario = function(req,res){
     Comentario.findOne({_id:req.params.id}).then(comentario=>{
-        
         comentario.remove().then(eliminado=>{
             Post.findOneAndUpdate({comentarios:req.params.id}, {$pull: {comentarios: req.params.id}}, (err,datos)=>{
                 if(err) throw err;
-
                 req.flash('mensaje_eliminado', 'El comentario ' + eliminado.cuerpo + ' ha sido eliminado');
                 res.redirect('/admin/comentarios');
             });
-        });
-
-        
-        
+        });     
     });
 }
 
@@ -79,7 +71,6 @@ exports.comentariosPost = function(req,res){
 exports.editarComentario = function(req,res){
     Comentario.findOne({_id: req.params.id}).then(comentario=>{
         comentario.cuerpo = req.body.cuerpo;
-
         comentario.save().then(actualizado=>{
             req.flash('mensaje_actualizado', 'El comentario ha sido actualizado.');
             res.redirect('/admin/comentarios');

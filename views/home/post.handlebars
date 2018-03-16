@@ -66,16 +66,16 @@
         {{/if}}
 
         {{#each comentarios as |comentario|}}
-          <!-- Single Comment -->
+          <!--Single Comment-->
             <div class="media mb-4">
-              <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+              <img height="50px" class="d-flex mr-3 rounded-circle" src="/img/default.png" alt="">
               <div class="media-body">
                 <h5 class="mt-0">{{comentario.usuario.nombre}}</h5>
                 <p>{{comentario.cuerpo}}</p>
                 <a href="" data-toggle="modal" data-target="#respuesta{{comentario.id}}" class="badge badge-primary" style="float:right;">Responder</a>
                 {{#each comentario.respuestas as |respuesta|}}
                     <div class="media mt-4">
-                      <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                      <img height="50px" class="d-flex mr-3 rounded-circle" src="/img/default.png" alt="">
                       <div class="media-body">
                         <h5 class="mt-0">{{respuesta.usuario.nombre}}</h5>
                         <p>{{respuesta.contenido}}</p>
@@ -85,9 +85,9 @@
                 {{/each}}
               </div>
             </div>
+            
             <hr>
 
-            
             <div class="modal fade" id="respuesta{{comentario.id}}" tabindex="-1" role="dialog">
                       <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -116,6 +116,7 @@
                         </div>
                       </div>
             </div>
+            
             
 
         {{/each}}

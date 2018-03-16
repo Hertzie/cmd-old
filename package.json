@@ -21,6 +21,7 @@
     "faker": "^4.1.0",
     "fs": "0.0.1-security",
     "human-date": "^1.4.0",
+    "ibtrealtimesjnode": "^2.1.30",
     "method-override": "^2.3.10",
     "moment": "^2.21.0",
     "mongoose": "^5.0.9",

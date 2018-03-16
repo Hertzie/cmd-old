@@ -28,10 +28,7 @@ exports.crearPost = function(req,res){
             if(error) throw error;
         });
     }
-    
-    
     let comentarios = (req.body.permitirComentarios ? true : false);
-
     const nuevo = new Post({
         titulo: req.body.titulo,
         categoria:req.body.categoria,
@@ -43,21 +40,15 @@ exports.crearPost = function(req,res){
         fecha_actualizacion: 'Sin actualizar',
         usuario: req.user.id
     });
-
     nuevo.save().then(guardado =>{
         req.flash('mensaje_success', 'El post ' + guardado.titulo + ' ha sido creado.');
         res.redirect('/admin/posts');
-    }).catch(error=>{console.log(error)});
-    
-    
-    
-    
+    }).catch(error=>{console.log(error)});   
 }
 
 exports.actualizarPost = function(req,res){
     let comentarios = (req.body.permitirComentarios ? true : false);
     let nombre_archivo = 'http://via.placeholder.com/350x150';
- 
     if(!estaVacio(req.files)){
         let archivo = req.files.archivo;
         nombre_archivo = Date.now() + '-' + archivo.name;
@@ -65,9 +56,7 @@ exports.actualizarPost = function(req,res){
             if(error) throw error;
         });
     }
-
     Post.findOne({_id: req.params.id}).then(post=>{
-
         file_system.unlink(directorio + post.archivo, (error)=>{
             post.titulo = req.body.titulo;
             post.archivo = nombre_archivo;
@@ -76,7 +65,6 @@ exports.actualizarPost = function(req,res){
             post.cuerpo = req.body.cuerpo;
             post.permitirComentarios = comentarios;
             post.fecha_actualizacion = new Date().toLocaleString(); 
-
             post.save().then(actualizado=>{
                 req.flash('mensaje_actualizado', 'El post ' + actualizado.titulo + ' ha sido actualizado.');
                 res.redirect('/admin/posts');
@@ -87,9 +75,7 @@ exports.actualizarPost = function(req,res){
 
 exports.borrarPost = function(req,res){
     Post.findOne({_id: req.params.id}).populate('comentarios').then(post=>{
-        
         file_system.unlink(directorio + post.archivo, (error)=>{
-
             if(!post.comentarios.length < 1){
                 post.comentarios.forEach(comentario=>{
                     comentario.remove();

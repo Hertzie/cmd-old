@@ -8,7 +8,6 @@ exports.index = function(req,res){
 exports.generarRandomPosts = function(req,res){
     let cantidad = req.body.cantidad;
     for(let i = 0; i < cantidad; i++){
-
         const nuevo = new Post({
             titulo:  faker.name.title(),
             archivo: 'http://via.placeholder.com/350x150',
@@ -18,7 +17,6 @@ exports.generarRandomPosts = function(req,res){
             fecha_creacion: new Date().toLocaleString(),
             fecha_actualizacion: new Date().toLocaleString()
         });
-    
         nuevo.save().then(guardado =>{
             
         }).catch(error=>{console.log(error)});

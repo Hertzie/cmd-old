@@ -7,10 +7,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 exports.index = function(req,res){
-
     const posts_por_pagina = 10;
     const pagina = req.query.pagina || 1;
-
     Post.find({}).populate('usuario')
         .skip((posts_por_pagina * pagina) - posts_por_pagina)
         .limit(posts_por_pagina)
@@ -37,12 +35,10 @@ exports.loginGet = function(req,res){
 
 //Configuracion de passport
 passport.use(new LocalStrategy({usernameField: 'nombre_usuario'}, (nombre_usuario,password,done)=>{
-    
     Usuario.findOne({nombre_usuario:nombre_usuario}).then(usuario=>{
         if(!usuario){
             return done(null,false,{message:'No se encontro un usuario con esas credenciales.'});
         }
-
         bcrypt.compare(password, usuario.password, (err,matched)=>{
             if(err) throw err;
             if(matched){ return done(null,usuario);}
@@ -95,8 +91,7 @@ exports.registroPost = function(req,res){
                 email: req.body.email,
                 nombre_usuario: req.body.nombre_usuario,
                 password: req.body.password
-            });
-        
+            });      
             bcrypt.genSalt(10, (error,salt)=>{
                 bcrypt.hash(usuario.password, salt, (err,hash)=>{
                     usuario.password = hash;
@@ -107,9 +102,7 @@ exports.registroPost = function(req,res){
                 });
             });
         }
-    });
-
-    
+    });   
 }
 
 exports.verPost = function(req,res){
@@ -122,12 +115,7 @@ exports.verPost = function(req,res){
         Comentario.find({post:post.id, aprobado:true}).populate('usuario').populate({path: 'respuestas', model:'respuestas', populate:{path:'usuario', model:'usuarios'}}).then(comentarios=>{
             res.render('home/post', {post:post, comentarios:comentarios});
         });
-    });
-    
-   
-
-
-   
+    }); 
 }
 
 exports.getPostsPorCategoria = function(req,res){

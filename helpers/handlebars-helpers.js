@@ -3,8 +3,7 @@ require('moment/locale/es');
 
 module.exports = {
 
-    select: function(seleccionado, opciones){
-        
+    select: function(seleccionado, opciones){      
         return opciones.fn(this).replace(new RegExp(' value=\"' + seleccionado + '\"'), '$&selected="selected"');
     },
 
@@ -41,7 +40,6 @@ module.exports = {
             default:
                 throw 'Operador desconocido' + operador;
         }
-
         if(bool){
             return opciones.fn(this);
         }
@@ -50,6 +48,7 @@ module.exports = {
         }
 
     },
+    
     fecha: function(fecha, formato){
         return moment(fecha).format(formato);
     },

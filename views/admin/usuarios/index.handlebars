@@ -1,1 +1,83 @@
-<h1 align="center">Todos los usuarios</h1>
+<div>
+    <h1 align="center" class="display-4">Todos los usuarios</h1>
+</div>
+
+{{> home/form-flash}}
+<br>
+<br>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-responsive" align="center">
+            <thead>
+                <tr>
+                    <td><strong>ID</strong></td>
+                    <td><strong>Nombre</strong></td>
+                    <td><strong>Nombre de Usuario</strong></td>
+                    <td><strong>Email</strong></td>
+                    <td><strong>Rol</strong></td>
+                    <td><strong>Acciones</strong></td>
+                </tr>
+            </thead>
+            {{#each usuarios as |usuario|}}
+              <tbody>
+                <tr>
+                    <td>{{usuario.id}}</td>
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.nombre_usuario}}</td>
+                    <td>{{usuario.email}}</td>
+                    <td>{{usuario.rol.nombre}}</td>
+                    <td>
+                        <a href="" data-toggle="modal" data-target="#editar{{usuario.id}}" class="badge badge-info"><i class="fa fa-pencil"></i> Editar</a>
+                        <a href="" data-toggle="" data-target="#eliminar{{usuario.id}}" class="badge badge-danger"><i class="fa fa-trash-o"></i> Eliminar</a>
+                    </td>
+                </tr>
+
+                <!--MODAL PARA EDITAR AL USUARIO -->
+                    <div class="modal fade" id="editar{{usuario.id}}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Editar Usuario: <span style="color:blue;">{{usuario.nombre}}</span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                                <form action="/admin/usuarios/editar/{{usuario.id}}?_method=PUT" method="POST">
+                                        <div class="form-group">
+                                            <label for="nombre">Nombre:</label>
+                                            <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Ingresa aquí el nuevo nombre" value="{{usuario.nombre}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="nombre_usuario">Nombre de Usuario:</label>
+                                            <input name="nombre_usuario" type="text" class="form-control" id="nombre_usuario" placeholder="Ingresa aquí el nuevo nombre de usuario" value="{{usuario.nombre_usuario}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="email">Email:</label>
+                                            <input name="email" type="email" class="form-control" id="email" placeholder="Ingresa aquí el nuevo email" value="{{usuario.email}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="rol">Rol:</label>
+                                            <select name="rol" class="custom-select" id="rol">
+                                                {{#select usuario.rol}}
+                                                    <option value="5aac6abe0432bd212814fabb">Regular</option>
+                                                    <option value="5aac6f230432bd212814fabc">Administrador</option>
+                                                {{/select}}
+                                            </select>
+                                         </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        </div>
+                                </form>    
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+              </tbody>
+            {{/each}}
+        </table>
+    </div>
+</div>

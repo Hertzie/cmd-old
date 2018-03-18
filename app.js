@@ -67,6 +67,7 @@ const admin_usuarios_routes = require('./routes/admin/usuarios');
 const admin_categorias_routes = require('./routes/admin/categorias');
 const admin_comentarios_routes = require('./routes/admin/comentarios');
 const admin_respuestas_routes = require('./routes/admin/respuestas');
+const admin_roles_routes = require('./routes/admin/roles');
 
 //Usar las rutas
 app.use('/', main_home_routes);
@@ -76,12 +77,13 @@ app.use('/admin/usuarios', admin_usuarios_routes);
 app.use('/admin/categorias', admin_categorias_routes);
 app.use('/admin/comentarios', admin_comentarios_routes);
 app.use('/admin/respuestas', admin_respuestas_routes);
+app.use('/admin/roles', admin_roles_routes);
 
 //Helpers
-const {select, ifCond, fecha, paginacion, logueado} = require('./helpers/handlebars-helpers');
+const {select, ifCond, fecha, paginacion, logueado, truncar} = require('./helpers/handlebars-helpers');
 
-//Usar template handlebars
-app.engine('handlebars', expHandle({defaultLayout: 'home', helpers:{select:select, ifCond:ifCond, fecha:fecha, paginacion:paginacion, logueado:logueado}}));
+//Usar template engine handlebars
+app.engine('handlebars', expHandle({defaultLayout: 'home', helpers:{select:select, ifCond:ifCond, fecha:fecha, paginacion:paginacion, logueado:logueado, truncar:truncar}}));
 app.set('view engine', 'handlebars');
 
 

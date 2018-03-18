@@ -18,7 +18,7 @@
                 {{#each comentarios as |comentario|}}
                     <tr>
                         <td>{{comentario.usuario.nombre}}</td>
-                        <td>{{comentario.cuerpo}}</td>
+                        <td>{{#truncar comentario.cuerpo 20 true}}{{/truncar}}</td>
                         <td><a href="/post/{{comentario.post.slug}}">{{comentario.post.titulo}}</a></td>
                         <!--
                         <td>
@@ -48,7 +48,8 @@
                                 <form action="/admin/comentarios/editar/{{comentario.id}}?_method=PUT" method="POST">
                                         <div class="form-group">
                                             <label for="cuerpo">Comentario</label>
-                                            <input name="cuerpo" type="text" class="form-control" id="nombre" placeholder="Ingresa aquí el nuevo texto" value="{{comentario.cuerpo}}">
+                                            <!--<input name="cuerpo" type="text" class="form-control" id="nombre" placeholder="Ingresa aquí el nuevo texto" value="{{comentario.cuerpo}}">-->
+                                            <textarea name="cuerpo" class="form-control" id="cuerpo" cols="30" rows="10">{{comentario.cuerpo}}</textarea>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

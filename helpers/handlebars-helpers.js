@@ -1,5 +1,6 @@
 const moment = require('moment');
 require('moment/locale/es');
+var Handlebars = require('handlebars');
 
 module.exports = {
 
@@ -85,5 +86,18 @@ module.exports = {
             output += `<li class="page-item"><a href="?pagina=${opciones.hash.paginas}" class="page-link">Fin</a></li>`;
         }
         return output;
+    },
+
+    truncar: function(texto, len, palabras){
+        let pasa = Handlebars.Utils.escapeExpression(texto);
+        let larga = pasa.length > len;
+        let s = larga ? pasa.substr(0, len) : pasa;
+        if(palabras && larga){
+            let index = s.lastIndexOf(' ');
+            if(index !== 1){
+                s = s.substr(0, index);
+            }
+        }
+        return new Handlebars.SafeString(larga ? s + ' &hellip;' : s);
     }
 };

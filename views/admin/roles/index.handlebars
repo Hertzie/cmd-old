@@ -1,0 +1,61 @@
+<div>
+    <h1 class="display-4" align="center">Roles</h1>
+</div>
+{{> home/form-flash}}
+
+<div>
+    <a href="" class="badge badge-primary" data-toggle="modal" data-target="#nuevoRol" style="float:right;"><i class="fa fa-plus"></i> Nuevo Rol</a>
+</div>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table" align="center">
+            <thead>
+                <tr>
+                    <td><strong>ID</strong></td>
+                    <td><strong>Nombre</strong></td>
+                    <td><strong>Acciones</strong></td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each roles as |rol|}}
+                    <tr>
+                        <td>{{rol.id}}</td>
+                        <td>{{rol.nombre}}</td>
+                        <td>
+                            <a href="" data-toggle="" data-target="" class="badge badge-primary"><i class="fa fa-pencil"></i> Editar</a>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- MODAL NUEVO -->
+<div class="modal fade" id="nuevoRol" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Nuevo Rol</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="/admin/roles/crear" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input name="nombre" type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                    </div>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>

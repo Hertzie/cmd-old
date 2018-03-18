@@ -17,13 +17,23 @@
                 {{#each comentarios as |comentario|}}
                     <tr>
                         <td>{{comentario.usuario.nombre}}</td>
-                        <td>{{comentario.cuerpo}}</td>
-                        <td>
+                        <td>{{#truncar comentario.cuerpo 20 true}}{{/truncar}}</td>
+                        {{#ifCond comentario.usuario.rol.nombre '==' 'Administrador'}}
+                            <td><span style="color:red;">Comentario de Administrador</span></td>
+                        {{else}}
+                            <td>
                                 <input data-id="{{comentario.id}}"type="checkbox" {{#if comentario.aprobado}} checked {{/if}} name="permiteComentarios">
-                        </td>
+                            </td>
+                        {{/ifCond}}
+                        {{#ifCond comentario.usuario.rol.nombre '==' 'Administrador'}}
                         <td>
-                            <a href="" class="badge badge-danger" data-toggle="modal" data-target="#eliminar{{comentario.id}}"><i class="fa fa-trash-o"></i> Eliminar</a>
+                            <span style="color:red;">No se puede hacer ninguna edición</span>
                         </td>
+                        {{else}}
+                            <td>
+                                <a href="" class="badge badge-danger" data-toggle="modal" data-target="#eliminar{{comentario.id}}"><i class="fa fa-trash-o"></i> Eliminar</a>
+                            </td>
+                        {{/ifCond}}
                         
                     </tr>
                     <!-- MODAL BORRADO -->

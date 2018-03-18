@@ -20,11 +20,14 @@ exports.enviarComentario = function(req,res){
         if(post.usuario == req.user.id){
             nuevo_comentario.aprobado = true;
         }
+        if(req.user.rol){
+            nuevo_comentario.aprobado = true;
+        }
         post.comentarios.push(nuevo_comentario);
         post.save().then(guardado=>{
             nuevo_comentario.save().then(comentario_guardado=>{
 
-                if(post.usuario == req.user.id){
+                if(post.usuario == req.user.id || req.user.rol){
                     req.flash('mensaje_success', 'Su comentario ha sido publicado.');
                 }
                 else{
@@ -57,7 +60,7 @@ exports.aprobarComentario = function(req,res){
 
 exports.comentariosPost = function(req,res){
     Post.findOne({_id: req.params.id}).then(post=>{
-        Comentario.find({post:post.id}).populate('usuario').then(comentarios=>{
+        Comentario.find({post:post.id}).populate({path: 'usuario', model:'usuarios', populate:{path:'rol', model:'roles'}}).then(comentarios=>{
             if(post.usuario == req.user.id){
                 res.render('admin/posts/comentarios-post', {comentarios:comentarios, post:post});
             }

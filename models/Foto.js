@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const RolSchema = new Schema({
-    nombre:{
+const FotoSchema = new Schema({
+    ruta:{
         type:String,
         required:true
     }
 });
 
-module.exports = mongoose.model('roles', RolSchema);
+module.exports = mongoose.model('fotos', FotoSchema);

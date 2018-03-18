@@ -2,7 +2,11 @@ let Categoria = require('../models/Categoria');
 
 exports.index = function(req,res){
     Categoria.find({}).then(categorias => {
-        res.render('admin/categorias/index', {categorias:categorias});
+        if(req.user.rol){
+            res.render('admin/categorias/index', {categorias:categorias});
+        }else{
+            res.render('admin/index');
+        }
     }).catch(error=>{console.log(error)});
 }
 

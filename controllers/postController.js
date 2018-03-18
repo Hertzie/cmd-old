@@ -15,6 +15,18 @@ exports.index = function(req,res){
     }).catch(error => {console.log(error)});
 }
 
+exports.todosLosPosts = (req,res) => {
+    Post.find({}).populate('categoria').populate('usuario').then(posts=>{
+        Categoria.find().then(categorias=>{
+            if(req.user.rol){
+                res.render('admin/posts/todos', {posts:posts, categorias:categorias});
+            }else{
+                res.render('admin/index');
+            }
+        });
+    }).catch(error=>{console.log(error)});
+}
+
 exports.crearGet = function(req,res){
     res.render('admin/posts/crear');
 }
@@ -66,8 +78,13 @@ exports.actualizarPost = function(req,res){
             post.permitirComentarios = comentarios;
             post.fecha_actualizacion = new Date().toLocaleString(); 
             post.save().then(actualizado=>{
-                req.flash('mensaje_actualizado', 'El post ' + actualizado.titulo + ' ha sido actualizado.');
-                res.redirect('/admin/posts');
+                if(req.user.rol){
+                    req.flash('mensaje_actualizado', 'El post ' + actualizado.titulo + ' ha sido actualizado.');
+                    res.redirect('/admin/posts/todos-los-posts');
+                }else{
+                    req.flash('mensaje_actualizado', 'El post ' + actualizado.titulo + ' ha sido actualizado.');
+                    res.redirect('/admin/posts');
+                }
             });
         });
     });

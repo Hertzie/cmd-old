@@ -61,7 +61,7 @@ exports.aprobarComentario = function(req,res){
 exports.comentariosPost = function(req,res){
     Post.findOne({_id: req.params.id}).then(post=>{
         Comentario.find({post:post.id}).populate({path: 'usuario', model:'usuarios', populate:{path:'rol', model:'roles'}}).then(comentarios=>{
-            if(post.usuario == req.user.id){
+            if(post.usuario == req.user.id || req.user.rol){
                 res.render('admin/posts/comentarios-post', {comentarios:comentarios, post:post});
             }
             else{

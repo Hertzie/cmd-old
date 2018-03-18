@@ -59,6 +59,11 @@
             <li>
               <a href="/admin/posts"><i class="fa-fa-file-alt"></i><span class="nav-link-text">Mis Posts</span></a>
             </li>
+            {{#if us.rol}}
+              <li>
+                <a href="/admin/posts/todos-los-posts"><i class="fa-fa-file-alt"></i><span class="nav-link-text">Todos los posts</span></a>
+              </li>
+            {{/if}}
           </ul>
         </li>
       </ul>

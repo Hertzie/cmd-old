@@ -6,7 +6,14 @@ let Rol = require('../models/Rol');
 exports.index = (req,res) => {
     Usuario.find({}).populate('rol').then(usuarios=>{
         Rol.find({}).then(roles=>{
-            res.render('admin/usuarios/index', {usuarios:usuarios, roles:roles});
+            if(req.user.rol){
+                res.render('admin/usuarios/index', {usuarios:usuarios, roles:roles});
+            }
+            else{
+                req.flash('mensaje_eliminado', 'No tienes los permisos para acceder a esta sección.');
+                res.render('admin/index');
+            }
+            
         });
     });
 }
@@ -62,6 +69,20 @@ exports.eliminar = (req,res) => {
         usuario.remove().then(eliminado=>{
             req.flash('mensaje_eliminado', 'El usuario: ' + usuario.nombre + 'y sus posts, comentarios y respuestas han sido eliminados.');
             res.redirect('/admin/usuarios');
+        });
+    });
+}
+
+exports.editarPerfil = (req,res) => {
+    Usuario.find({_id: req.user.id}).then(usuario=>{
+        usuario.nombre = req.body.nombre;
+        usuario.nombre_usuario = req.body.nombre_usuario;
+        usuario.email = req.body.email;
+        usuario.foto = req.body.foto;
+
+        usuario.save().then(guardado=>{
+            req.flash('mensaje_success', 'Tus datos han sido actualizados correctamente.');
+            res.redirect('/admin/index');
         });
     });
 }

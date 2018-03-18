@@ -11,6 +11,7 @@ router.all('/*', (req,res,next)=>{
 });
 //Ruta raiz de posts
 router.get('/', PostController.index);
+router.get('/todos-los-posts', PostController.todosLosPosts);
 
 //Rutas para crear post
 router.get('/crear', PostController.crearGet);

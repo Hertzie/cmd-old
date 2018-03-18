@@ -2,7 +2,12 @@ let Rol = require('../models/Rol');
 
 exports.index = (req,res) => {
     Rol.find({}).then(roles => {
-        res.render('admin/roles/index', {roles:roles});
+        if(req.user.rol){
+            res.render('admin/roles/index', {roles:roles});
+        }
+        else{
+            res.render('admin/index');
+        }
     }).catch(error=>{console.log(error)});
 }
 

@@ -15,7 +15,7 @@
 <table class="table table-bordered table-responsive">
     <thead>
         <tr>
-            <th>Imagen</th>
+            <!--<th>Imagen</th>-->
             <th>Título</th>
             <td>Creador</td>
             <th>Tipo</th>
@@ -32,6 +32,7 @@
     <tbody>
         {{#each posts as |post|}}
         <tr>
+            <!--
             <td>
                 {{#ifCond post.archivo '==' 'http://via.placeholder.com/350x150'}}
                     <img height="40" class="img-responsive" src="http://via.placeholder.com/350x150" alt="">
@@ -39,7 +40,7 @@
                     <img height="40" class="img-responsive" src="/uploads/{{post.archivo}}" alt="">
                 {{/ifCond}}
             </td>
-            
+            -->
             <td>{{post.titulo}}</td>
             <td>{{post.usuario.nombre}}</td>
             <td>{{post.tipoPublicacion}}</td>
